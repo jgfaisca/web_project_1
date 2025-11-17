@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h3>Lista de Clientes</h3>
+        <div class="table-container">
+            <table class="client-table">
+                <thead>
+                    <tr>
+                        <th>NIF</th>
+                        <th>Nome</th>
+                        <th>Morada</th>
+                        <th>Código Postal</th>
+                        <th>Localidade</th>
+                        <th>Área</th>
+                        <th>Zona</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente[0] }}</td>
+                        <td>{{ cliente[1] }}</td>
+                        <td>{{ cliente[2] }}</td>
+                        <td>{{ cliente[3] }}</td>
+                        <td>{{ cliente[4] }}</td>
+                        <td>{{ cliente[5] }}</td>
+                        <td>{{ cliente[6] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ url_for('index') }}" class="back-link">Voltar</a>
+    </div>
+</body>
+</html>

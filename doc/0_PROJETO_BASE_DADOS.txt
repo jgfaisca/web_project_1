@@ -1,0 +1,83 @@
+PROJETO DE BASE DE DADOS
+
+    Levantamento e Análise de Requisitos:
+
+    Compreensão das Necessidades do Negócio:
+    Este é o primeiro passo crucial. É necessário compreender o propósito da base de dados, os dados que irá armazenar e como será utilizada.
+    Realizar entrevistas com as partes interessadas, analisar sistemas existentes e rever documentação.
+    Definição dos Requisitos de Dados:
+    Identificar as entidades (por exemplo, clientes, produtos, encomendas) que a base de dados irá representar.
+    Determinar os atributos (por exemplo, nome do cliente, preço do produto, data da encomenda) de cada entidade.
+    Definir as relações entre entidades (por exemplo, um cliente pode ter várias encomendas).
+    Definição dos Requisitos Funcionais:
+    Especificar as operações que a base de dados deve suportar (por exemplo, adicionar novos clientes, gerar relatórios, processar transações).
+    Delinear os requisitos de interface do utilizador, se aplicável.
+    Definição dos Requisitos Não Funcionais:
+    Abordar requisitos de desempenho, segurança, escalabilidade e fiabilidade.
+    Considerar fatores como volume de dados, carga de utilizadores e políticas de segurança.
+
+    Desenho Conceptual da Base de Dados:
+
+    Modelação Entidade-Relacionamento (ER):
+    Criar um diagrama ER para representar visualmente as entidades, atributos e relações.
+    Isto fornece uma visão geral de alto nível da estrutura da base de dados.
+    Modelação de Dados:
+    Refinar o modelo ER para definir os tipos de dados, restrições e relações com maior precisão.
+
+    Desenho Lógico da Base de Dados:
+
+    Esquema Relacional:
+    Traduzir o modelo conceptual num esquema relacional, que define as tabelas, colunas e relações numa base de dados relacional.
+    Escolher tipos de dados apropriados para cada coluna.
+    Definir chaves primárias e chaves estrangeiras para impor relações.
+    Normalização:
+    Aplicar técnicas de normalização (por exemplo, 1FN, 2FN, 3FN) para reduzir a redundância de dados e melhorar a integridade dos dados.
+    Isto ajuda a prevenir anomalias durante a modificação de dados.
+
+    Desenho Físico da Base de Dados:
+
+    Seleção do Sistema de Gestão de Base de Dados (SGBD):
+    Escolher um SGBD adequado com base nos requisitos do projeto (por exemplo, SQLite, MySQL, PostgreSQL, Oracle).
+    Otimização de Armazenamento:
+    Determinar as estruturas de armazenamento ideais, como índices, para melhorar o desempenho das consultas.
+    Considerar fatores como volume de dados, padrões de acesso e recursos de hardware.
+    Implementação de Segurança:
+    Definir funções e permissões de utilizadores para controlar o acesso à base de dados.
+    Implementar medidas de segurança para proteger dados sensíveis.
+    Cópia de Segurança e Recuperação:
+    Planear a cópia de segurança de dados e recuperação de desastres.
+
+    Implementação da Base de Dados:
+
+    Criação da Base de Dados:
+    Utilizar o SGBD escolhido para criar o esquema da base de dados e as tabelas.
+    Definir restrições, índices e outros objetos da base de dados.
+    Carregamento de Dados:
+    Preencher a base de dados com dados iniciais, seja manualmente ou importando dados de fontes existentes.
+    Desenvolvimento de Aplicações:
+    Criar aplicações que interajam com a base de dados, como aplicações web, aplicações de desktop ou aplicações móveis.
+    Criação de Triggers e Procedimentos Armazenados:
+    Criar triggers e procedimentos armazenados conforme necessário para automatizar tarefas e impor lógica de negócio.
+
+    Testes e Validação:
+
+    Testes Unitários:
+    Testar componentes individuais da base de dados, como consultas, procedimentos armazenados e triggers.
+    Testes de Integração:
+    Testar as interações entre diferentes componentes da base de dados e aplicações.
+    Testes de Desempenho:
+    Avaliar o desempenho da base de dados sob várias cargas de trabalho.
+    Testes de Aceitação do Utilizador (UAT):
+    Permitir que os utilizadores finais testem a base de dados e as aplicações para garantir que atendem aos seus requisitos.
+
+    Implementação e Manutenção:
+
+    Implementação:
+    Implementar a base de dados e as aplicações no ambiente de produção.
+    Monitorização:
+    Monitorizar o desempenho e a disponibilidade da base de dados.
+    Manutenção:
+    Realizar tarefas de manutenção regulares, como cópias de segurança, atualizações e otimização de desempenho.
+    Atualizações e Melhorias:
+    À medida que os requisitos mudam, atualizar a base de dados para refletir essas alterações.
+

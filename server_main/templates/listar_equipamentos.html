@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Equipamentos</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h3>Lista de Equipamentos</h3>
+        <div class="table-container">
+            <table class="equipment-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Número de Série</th>
+                        <th>NIF do Cliente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipamento in equipamentos %}
+                    <tr>
+                        <td>{{ equipamento[0] }}</td>
+                        <td>{{ equipamento[1] }}</td>
+                        <td>{{ equipamento[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ url_for('index') }}" class="back-link">Voltar</a>
+    </div>
+</body>
+</html>

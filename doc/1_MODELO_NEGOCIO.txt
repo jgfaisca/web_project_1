@@ -1,0 +1,25 @@
+
+MODELO DE NEGOCIO
+
+Sistema abrangente de Internet das Coisas (IoT) monitorização e controlo, utilizado em ambientes comerciais, 
+onde é necessário acompanhar condições ambientais, e eventos específicos associados a equipamentos instalados 
+em diferentes locais ou clientes.
+A estrutura temporal dos dados permite análises detalhadas e acompanhamento histórico das condições e eventos.
+Eis os principais componentes:
+
+    Gestão de Clientes:
+
+        Registo detalhado de clientes, incluindo informações como NIF, nome, morada, código postal, localidade, área e zona.
+
+    Gestão de Equipamentos:
+
+        Cada equipamento é associado a um cliente específico.
+
+        Os equipamentos são identificados por um ID único e número de série.
+
+    Monitorização de Temperatura:
+
+        Registo contínuo de temperaturas em três pontos diferentes (Temp0, Temp1, Temp2) para cada equipamento.
+
+        As leituras são registadas com "timestamp" para análise temporal.
+

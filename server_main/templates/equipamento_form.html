@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Equipamento</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h3>Adicionar Equipamento</h3>
+        <form method="POST" class="form-layout">
+            <div class="form-group">
+                <label for="id">ID (opcional):</label>
+                <input type="number" id="id" name="id">
+            </div>
+
+            <div class="form-group">
+                <label for="numero_serie">Número de Série:</label>
+                <input type="text" id="numero_serie" name="numero_serie" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cliente_nif">NIF do Cliente:</label>
+                <select id="cliente_nif" name="cliente_nif" required>
+                    <option value="">Selecione um cliente</option>
+                    {% for nif in clientes %}
+                        <option value="{{ nif }}">{{ nif }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <input type="submit" value="Adicionar" class="submit-btn">
+                <a href="{{ url_for('index') }}" class="back-link">Voltar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

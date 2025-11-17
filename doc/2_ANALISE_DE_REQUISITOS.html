@@ -1,0 +1,65 @@
+<h1> </h1>
+
+<hr />
+
+<h1>ANÁLISE DE REQUISITOS</h1>
+
+<p>Esta análise fornece uma visão geral da estrutura da base de dados, identificando as principais entidades, os seus atributos, as relações entre elas e algumas restrições.</p>
+
+<h2>1. Entidades</h2>
+
+<ul>
+<li>Equipamento</li>
+<li>Cliente</li>
+<li>Temperatura</li>
+</ul>
+
+<h2>2. Atributos/Propriedades</h2>
+
+<h3>Equipamento:</h3>
+
+<ul>
+<li>ID (identificador único)</li>
+<li>Número de série</li>
+<li>Cliente associado (NIF do cliente)</li>
+</ul>
+
+<h3>Cliente:</h3>
+
+<ul>
+<li>NIF (Número de Identificação Fiscal)</li>
+<li>Nome</li>
+<li>Morada</li>
+<li>Código postal</li>
+<li>Localidade</li>
+<li>Área</li>
+<li>Zona</li>
+</ul>
+
+<h3>Temperatura:</h3>
+
+<ul>
+<li>ID do equipamento</li>
+<li>Data e hora</li>
+<li>Temperatura 0</li>
+<li>Temperatura 1</li>
+<li>Temperatura 2</li>
+</ul>
+
+<h2>3. Relações (e propriedades)</h2>
+
+<ul>
+<li><strong>Equipamento - Cliente:</strong> Um cliente pode ter vários equipamentos, mas cada equipamento pertence a apenas um cliente.</li>
+<li><strong>Equipamento - Temperatura:</strong> Um equipamento pode ter vários registos de temperatura, mas cada registo de temperatura está associado a apenas um equipamento.</li>
+</ul>
+
+<h2>4. Restrições (oriundas de regras de negócio)</h2>
+
+<ul>
+<li>O NIF do cliente deve ser único e válido (12 dígitos).</li>
+<li>O número de série do equipamento deve ser único.</li>
+<li>As datas e horas devem ser válidas e não podem ser futuras.</li>
+<li>As temperaturas devem estar dentro de um intervalo razoável (por exemplo, entre -30°C e 100°C).</li>
+<li>Todos os IDs de equipamento referenciados devem existir na tabela de equipamentos.</li>
+<li>Todos os NIFs de clientes referenciados na tabela de equipamentos devem existir na tabela de clientes.</li>
+</ul>

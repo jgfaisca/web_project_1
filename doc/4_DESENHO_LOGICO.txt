@@ -1,0 +1,41 @@
+
+DESENHO LÓGICO
+Modelo Relacional (MR), aplicando as regras de normalização até à Terceira Forma Normal (3NF).
+Este modelo relacional normalizado reduz a redundância de dados, melhora a integridade e facilita a 
+manutenção da base de dados.
+
+CLIENTE (NIF, Nome, Morada, CodigoPostal, Localidade, Area, Zona)
+Chave Primária: NIF
+
+EQUIPAMENTO (ID, NumeroSerie, Cliente_NIF)
+Chave Primária: ID
+Chave Estrangeira: Cliente_NIF referencia CLIENTE(NIF)
+
+TEMPERATURA (Equipamento_ID, DataHora, Temp0, Temp1, Temp2)
+Chave Primária: (Equipamento_ID, DataHora)
+Chave Estrangeira: Equipamento_ID referencia EQUIPAMENTO(ID)
+Normalização
+
+Este modelo relacional já está na Terceira Forma Normal (3NF), pois:
+
+    Está na Primeira Forma Normal (1NF):
+
+        Todos os atributos são atómicos.
+        Não há grupos repetitivos.
+
+    Está na Segunda Forma Normal (2NF):
+
+        Está na 1NF.
+        Todos os atributos não-chave dependem da chave primária completa.
+
+    Está na Terceira Forma Normal (3NF):
+
+        Está na 2NF.
+        Não há dependências transitivas entre os atributos não-chave.
+
+Observações sobre a normalização:
+
+    A tabela CLIENTE contém informações não redundantes sobre os clientes.
+    A tabela EQUIPAMENTO mantém uma relação com CLIENTE através da chave estrangeira.
+    A tabela TEMPERATURA usa chave composta para garantir unicidade e manter a relação com EQUIPAMENTO.
+

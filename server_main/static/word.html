@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guarda frase secreta</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple transition for the modal */
+        #modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex items-center justify-center min-h-screen">
+
+    <!-- Main Content Container -->
+    <div class="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Guarda frase secreta</h1>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Insira palavra a gravar no seu browser.</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="space-y-4">
+            <div>
+                <label for="secret-word-input" class="sr-only">Frase Secreta</label>
+                <input id="secret-word-input" type="text" required class="relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-500 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="A sua frase secreta">
+            </div>
+            <button id="save-button" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                Gravar
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal / Pop-up -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-sm text-center transform transition-all scale-95">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white" id="modal-title">Bem vindo novamente!</h3>
+            <div class="mt-4">
+                <p class="text-sm text-gray-600 dark:text-gray-400"> **** </p>
+                <p class="mt-2 text-2xl font-bold text-indigo-600 dark:text-indigo-400" id="modal-secret-word"></p>
+            </div>
+            <div class="mt-6">
+                <button type="button" id="close-modal-button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm dark:focus:ring-offset-gray-800">
+                    Sair
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the DOM to be fully loaded before running the script
+        document.addEventListener('DOMContentLoaded', () => {
+            const secretWordInput = document.getElementById('secret-word-input');
+            const saveButton = document.getElementById('save-button');
+            const modal = document.getElementById('modal');
+            const modalSecretWord = document.getElementById('modal-secret-word');
+            const closeModalButton = document.getElementById('close-modal-button');
+            const modalTitle = document.getElementById('modal-title');
+            
+            const STORAGE_KEY = 'userSecretWord';
+
+            // --- Functions ---
+
+            /**
+             * Shows the modal with a custom message.
+             * @param {string} title The title for the modal.
+             * @param {string} word The word to display in the modal.
+             */
+            const showModal = (title, word) => {
+                modalTitle.textContent = title;
+                modalSecretWord.textContent = word;
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.querySelector('div').classList.remove('scale-95');
+            };
+
+            /**
+             * Hides the modal.
+             */
+            const hideModal = () => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.querySelector('div').classList.add('scale-95');
+            };
+
+
+            // --- Event Listeners ---
+
+            // Save the word when the button is clicked
+            saveButton.addEventListener('click', () => {
+                const word = secretWordInput.value.trim();
+                if (word) {
+                    try {
+                        localStorage.setItem(STORAGE_KEY, word);
+                        showModal('Sucesso!', 'A frase foi gravada.');
+                        secretWordInput.value = ''; // Clear the input field
+                    } catch (error) {
+                        console.error('Falha ao gravar em localStorage:', error);
+                        showModal('Erro!', 'Nao foi possivel gravar.');
+                    }
+                } else {
+                    showModal('Oops!', 'Insira primeiro uma frase.');
+                }
+            });
+
+            // Allow saving by pressing Enter key in the input field
+            secretWordInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    saveButton.click();
+                }
+            });
+
+            // Close the modal when the close button is clicked
+            closeModalButton.addEventListener('click', hideModal);
+            
+            // Close the modal if the user clicks on the background overlay
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    hideModal();
+                }
+            });
+
+
+            // --- On Page Load ---
+
+            // Check if a word is already stored in localStorage when the page loads
+            try {
+                const storedWord = localStorage.getItem(STORAGE_KEY);
+                if (storedWord) {
+                    showModal('Bem vindo novamente!', storedWord);
+                }
+            } catch (error) {
+                console.error('Falhou leitura no localStorage:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+

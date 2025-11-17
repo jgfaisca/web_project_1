@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 24.2.7.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2025-03-27T01:16:50.879182509"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin-left: 0.79in; margin-right: 0.39in; margin-top: 0.39in; margin-bottom: 0.39in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		h1 { margin-bottom: 0.08in; background: transparent; page-break-after: avoid }
+		h1.western { font-family: "Liberation Serif", serif; font-size: 24pt; font-weight: bold }
+		h1.cjk { font-family: "Noto Serif CJK SC"; font-size: 24pt; font-weight: bold }
+		h1.ctl { font-family: "Noto Sans Devanagari"; font-size: 24pt; font-weight: bold }
+		h3 { margin-top: 0.1in; margin-bottom: 0.08in; background: transparent; page-break-after: avoid }
+		h3.western { font-family: "Liberation Serif", serif; font-size: 14pt; font-weight: bold }
+		h3.cjk { font-family: "Noto Serif CJK SC"; font-size: 14pt; font-weight: bold }
+		h3.ctl { font-family: "Noto Sans Devanagari"; font-size: 14pt; font-weight: bold }
+		h4 { margin-top: 0.08in; margin-bottom: 0.08in; background: transparent; page-break-after: avoid }
+		h4.western { font-family: "Liberation Serif", serif; font-size: 12pt; font-weight: bold }
+		h4.cjk { font-family: "Noto Serif CJK SC"; font-size: 12pt; font-weight: bold }
+		h4.ctl { font-family: "Noto Sans Devanagari"; font-size: 12pt; font-weight: bold }
+		a:link { color: #000080; text-decoration: underline }
+		a:visited { color: #800000; text-decoration: underline }
+	</style>
+</head>
+<body lang="en-AG" link="#000080" vlink="#800000" dir="ltr">
+<hr/>
+
+<h1 class="western">DESENHO CONCEPTUAL</h1>
+<p><font size="4" style="font-size: 16pt"><b>Modelo Entidade-Relação
+(MER)</b></font><br/>
+<br/>
+O MER fornece uma representação
+conceptual da estrutura da base de dados, mostrando as entidades
+principais, os seus atributos-chave e as relações entre elas.</p>
+<p>Num diagrama visual, as entidades, atributos e relações seriam
+representadas de acordo com alguma das conhecidas notações, tais
+como as de Peter Chen, ou James Martin. 
+</p>
+<h3 class="western">Entidades:</h3>
+<h4 class="western">EQUIPAMENTO (entidade forte)</h4>
+<ul>
+	<li><p style="margin-bottom: 0in">ID (chave primária) 
+	</p></li>
+	<li><p>Número de série 
+	</p></li>
+</ul>
+<h4 class="western">CLIENTE (entidade forte)</h4>
+<ul>
+	<li><p style="margin-bottom: 0in">NIF (chave primária) 
+	</p></li>
+	<li><p style="margin-bottom: 0in">Nome 
+	</p></li>
+	<li><p style="margin-bottom: 0in">Morada 
+	</p></li>
+	<li><p style="margin-bottom: 0in">Código postal 
+	</p></li>
+	<li><p style="margin-bottom: 0in">Localidade 
+	</p></li>
+	<li><p style="margin-bottom: 0in">Área 
+	</p></li>
+	<li><p>Zona 
+	</p></li>
+</ul>
+<h4 class="western">TEMPERATURA (entidade fraca)</h4>
+<ul>
+	<li><p style="margin-bottom: 0in">Data e hora 
+	</p></li>
+	<li><p style="margin-bottom: 0in">Temperatura 0 
+	</p></li>
+	<li><p style="margin-bottom: 0in">Temperatura 1 
+	</p></li>
+	<li><p>Temperatura 2 
+	</p></li>
+</ul>
+<h3 class="western">Relações:</h3>
+<h4 class="western">POSSUI (entre CLIENTE e EQUIPAMENTO)</h4>
+<ul>
+	<li><p>Cardinalidade: 1:N (Um cliente possui vários equipamentos) 
+	</p></li>
+</ul>
+<h4 class="western">MEDE_TEMPERATURA (entre EQUIPAMENTO e
+TEMPERATURA)</h4>
+<ul>
+	<li><p>Cardinalidade: 1:N (Um equipamento mede várias temperaturas)
+		</p></li>
+</ul>
+<h3 class="western">Notas adicionais:</h3>
+<ul>
+	<li><p style="margin-bottom: 0in">As entidades fracas (TEMPERATURA)
+	são identificadas pela sua relação com EQUIPAMENTO e pela data e
+	hora. 
+	</p></li>
+	<li><p style="margin-bottom: 0in">A chave primária de EQUIPAMENTO
+	(ID) é uma chave estrangeira em TEMPERATURA. 
+	</p></li>
+	<li><p>A chave primária de CLIENTE (NIF) é uma chave estrangeira
+	em EQUIPAMENTO. 
+	</p></li>
+</ul>
+</body>
+</html>

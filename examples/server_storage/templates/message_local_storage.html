@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <title>LocalStorage</title>
+    <script>
+        function saveMessage() {
+            var message = document.getElementById('msg').value;
+            localStorage.setItem('message', message);
+            showMessage();
+        }
+		function showMessage() {
+			var stored = localStorage.getItem('message');
+			var displayElem = document.getElementById('display');
+			var container = displayElem.parentElement;
+			if (!stored) {
+				// hide if no message
+				container.style.display = 'none'; 
+			} else {
+				container.style.display = 'block';
+				displayElem.textContent = stored;
+			}
+		}
+        window.onload = showMessage;
+    </script>
+</head>
+<body>
+    <h4>LocalStorage</h4>
+    <input id="msg" placeholder="Message?">
+    <button type="button" onclick="saveMessage()">Save</button>
+    <div>message: <span id="display"></span></div>
+</body>
+</html>

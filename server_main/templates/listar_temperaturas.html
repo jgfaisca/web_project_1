@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Temperaturas</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h3>Lista de Temperaturas (Últimas Leituras)</h3>
+        <div class="table-container">
+            <table class="temperature-table">
+                <thead>
+                    <tr>
+                        <th>ID do Equipamento</th>
+                        <th>Data e Hora</th>
+                        <th>Temp0</th>
+                        <th>Temp1</th>
+                        <th>Temp2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody id="temperatura-tbody">    
+                    {% for temperatura in temperaturas %}
+                    <tr>
+                        <td>{{ temperatura[0] }}</td>
+                        <td>{{ temperatura[1] }}</td>
+                        <td>{{ temperatura[2] }}</td>
+                        <td>{{ temperatura[3] }}</td>
+                        <td>{{ temperatura[4] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+		<div class="pagination">
+			{% if page > 1 %}
+				<a href="{{ url_for('listar_temperaturas', page=page-1) }}">Anterior</a>
+			{% else %}
+				<span>Anterior</span>
+			{% endif %}
+			<span>| Pagina {{ page }} de {{ total_pages }} |</span>
+			{% if page < total_pages %}
+				<a href="{{ url_for('listar_temperaturas', page=page+1) }}">Seguinte</a>
+			{% else %}
+				<span>Seguinte</span>
+			{% endif %}
+		</div>
+		<p><a href="{{ url_for('index') }}" class="back-link">Voltar</a></p>
+    </div>
+    <script>
+        var socket = io();
+        socket.on('atualiza_temperaturas', function(data) {
+            var tbody = document.getElementById('temperatura-tbody');
+            tbody.innerHTML = '';
+            data.temperaturas.forEach(function(temp) {
+                var row = '<tr>' +
+                    '<td>' + temp[0] + '</td>' +
+                    '<td>' + temp[1] + '</td>' +
+                    '<td>' + temp[2] + '</td>' +
+                    '<td>' + temp[3] + '</td>' +
+                    '<td>' + temp[4] + '</td>' +
+                    '</tr>';
+                tbody.innerHTML += row;
+            });
+        });
+    </script>   
+</body>
+</html>

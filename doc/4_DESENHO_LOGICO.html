@@ -1,0 +1,59 @@
+<h1> </h1>
+
+<hr />
+
+<h1>DESENHO LÓGICO</h1>
+
+<h2>Modelo Relacional (MR)</h2>
+
+<p>Este modelo relacional normalizado reduz a redundância de dados, melhora a integridade e facilita a manutenção da base de dados. Está aplicado até à Terceira Forma Normal (3NF).</p>
+
+<h3>CLIENTE (NIF, Nome, Morada, CodigoPostal, Localidade, Area, Zona)</h3>
+
+<ul>
+<li>Chave Primária: NIF</li>
+</ul>
+
+<h3>EQUIPAMENTO (ID, NumeroSerie, Cliente_NIF)</h3>
+
+<ul>
+<li>Chave Primária: ID</li>
+<li>Chave Estrangeira: Cliente_NIF referencia CLIENTE(NIF)</li>
+</ul>
+
+<h3>TEMPERATURA (Equipamento_ID, DataHora, Temp0, Temp1, Temp2)</h3>
+
+<ul>
+<li>Chave Primária: (Equipamento_ID, DataHora)</li>
+<li>Chave Estrangeira: Equipamento_ID referencia EQUIPAMENTO(ID)</li>
+</ul>
+
+<h2>Normalização</h2>
+
+<p>Este modelo relacional já está na Terceira Forma Normal (3NF), pois:</p>
+
+<ol>
+<li><strong>Está na Primeira Forma Normal (1NF):</strong>
+<ul>
+<li>Todos os atributos são atómicos.</li>
+<li>Não há grupos repetitivos.</li>
+</ul></li>
+<li><strong>Está na Segunda Forma Normal (2NF):</strong>
+<ul>
+<li>Está na 1NF.</li>
+<li>Todos os atributos não-chave dependem da chave primária completa.</li>
+</ul></li>
+<li><strong>Está na Terceira Forma Normal (3NF):</strong>
+<ul>
+<li>Está na 2NF.</li>
+<li>Não há dependências transitivas entre os atributos não-chave.</li>
+</ul></li>
+</ol>
+
+<h3>Observações sobre a normalização:</h3>
+
+<ul>
+<li>A tabela CLIENTE contém informações não redundantes sobre os clientes.</li>
+<li>A tabela EQUIPAMENTO mantém uma relação com CLIENTE através da chave estrangeira.</li>
+<li>A tabela TEMPERATURA usa chave composta para garantir unicidade e manter a relação com EQUIPAMENTO.</li>
+</ul>
