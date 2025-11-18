@@ -3,3 +3,5 @@
 #sys
 Faker
 flask
+flask-socketIO
+websockets

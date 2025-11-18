@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Cliente</title>
+</head>
+<body>
+    <h4>WebSocket Cliente</h4>
+    <input type="text" id="msgInput  " placeholder="mensagem?">
+    <button id="sendButton">Enviar</button>
+    <div id="messages"></div>
+
+    <script>
+        const host = "localhost";
+        const port = 6789;
+        const uri = `ws://${host}:${port}`;
+        const socket = new WebSocket(uri);
+
+        socket.onopen = function() {
+            console.log('Conexao estabelecida');
+        };
+
+        socket.onmessage = function(event) {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML += `<p>${event.data}</p>`; // adiciona nova mensagem
+            console.log('< ', event.data);
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket erro:', error);
+        };
+
+        socket.onclose = function() {
+            console.log('Conexao terminada');
+        };
+
+        document.getElementById('sendButton').onclick = function() {
+            const name = document.getElementById('msgInput  ').value;
+            socket.send(name);
+            console.log('> ', name);
+            document.getElementById('msgInput  ').value = ''; // limpar input apos envio
+        };
+    </script>
+</body>
+</html>
