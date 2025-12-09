@@ -49,7 +49,6 @@ def cliente():
         localidade = request.form['localidade']
         area = request.form['area']
         zona = request.form['zona']
-
         cursor.execute('''
             INSERT INTO Cliente (NIF, Nome, Morada, CodigoPostal, Localidade, Area, Zona)
             VALUES (?, ?, ?, ?, ?, ?, ?)''',
@@ -134,6 +133,51 @@ def equipamentos_cliente_json():
         return jsonify(equipamentos)
     else:
         return jsonify({'error': 'Necessario o parametro cliente_nif no corpo JSON'}), 400
+
+@app.route('/equipamento_temperaturas', methods=['GET'])
+def equipamentos_temperaturas():
+    db = get_db()
+    cursor = db.cursor()
+    equipamento_id = request.args.get('equipamento_id') or request.headers.get('equipamento_id')
+    if equipamento_id:
+        page = request.args.get('page', 1, type=int)
+        per_page = 12
+        offset = (page - 1) * per_page
+        cursor.execute('''
+            SELECT COUNT(*) FROM Temperatura WHERE Equipamento_ID = ?''', 
+            (equipamento_id,))
+        total = cursor.fetchone()[0]
+        total_pages = (total + per_page - 1)
+ 		cursor.execute('''
+			SELECT * FROM Temperatura WHERE Equipamento_ID = ? ORDER BY DataHora DESC LIMIT ? OFFSET ? ''', 
+			(equipamento_id, per_page, offset))
+		temperaturas = cursor.fetchall()      
+        return render_template('listar_temperaturas.html',
+                           temperaturas=temperaturas,
+                           page=page,
+                           total_pages=total_pages,
+                           equipamento_id=equipamento_id)
+    else:
+        return jsonify({'error': 'Necessario o parametro equipamento_id'}), 400
+
+@app.route('/equipamento_temperaturas/json', methods=['POST'])
+def equipamento_temperaturas_json():
+    db = get_db()
+    cursor = db.cursor()
+    data = request.get_json()
+    equipamento_id = data.get('equipamento_id')
+    if equipamento_id:
+        cursor.execute(''' 
+            SELECT * FROM Temperatura WHERE Equipamento_ID = ? ORDER BY DataHora DESC ''',
+            (equipamento_id,))
+		temperaturas = cursor.fetchall()
+		temperaturas_json = [
+			{"id": row[0], "equipamento_id": row[1], "valor": row[2], "datahora": row[3]}
+			for row in temperaturas
+		]
+		return jsonify(temperaturas_json)
+    else:
+		return jsonify({'error': 'Necessario o parametro equipamento_id no corpo JSON'}), 400
 
 @app.route('/temperatura', methods=['POST', 'GET'])
 def handle_temperatura():
