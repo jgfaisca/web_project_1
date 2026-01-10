@@ -1,0 +1,123 @@
+/*
+IMPLEMENTAÇÃO
+(concretização do modelo físico)
+
+Esta concretização mapeia o modelo físico para um sistema de software específico (SQLite) que será 
+utilizado na implementação da base de dados. Define a estrutura das tabelas na base de dados, 
+incluindo as chaves primárias, chaves estrangeiras e tipos de dados para cada coluna. 
+As relações entre as tabelas são estabelecidas através das chaves estrangeiras, garantindo a 
+integridade referencial dos dados.
+*/
+
+/* 1. Configurar parâmetros do sistema */
+
+PRAGMA journal_mode = WAL;            -- Ativar o modo de escrita segura
+PRAGMA cache_size = -2000;            -- Define o cache para 2MB
+PRAGMA busy_timeout = 5000;           -- Define o timeout para 5 segundos
+PRAGMA synchronous = NORMAL;          -- Modo de sincronização
+PRAGMA mmap_size = 134217728;         -- Tamanho do mapeamento de memória
+PRAGMA journal_size_limit = 27103364; -- Limite de tamanho do journal
+PRAGMA foreign_keys = ON;             -- Ativar suporte a chaves estrangeiras
+
+/* 2. Limpeza de estruturas existentes */
+
+DROP VIEW IF EXISTS ClienteEquipamentoView;
+DROP TABLE IF EXISTS alertas_sensores;
+DROP TABLE IF EXISTS limites_sensores;
+DROP TABLE IF EXISTS Temperatura;
+DROP TABLE IF EXISTS PropriedadeEquipamento;
+DROP TABLE IF EXISTS Equipamento;
+DROP TABLE IF EXISTS Cliente;
+
+/* 3. Criação de Tabelas Base */
+
+-- Tabela de Clientes
+CREATE TABLE Cliente (
+    NIF TEXT PRIMARY KEY NOT NULL,
+    Nome TEXT NOT NULL,
+    Morada TEXT,
+    CodigoPostal TEXT,
+    Localidade TEXT,
+    Area TEXT,
+    Zona TEXT,
+    CHECK (length(trim(NIF)) > 0 AND length(trim(Nome)) > 0)
+);
+
+-- Tabela de Equipamentos
+CREATE TABLE Equipamento (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    NumeroSerie TEXT NOT NULL UNIQUE,
+    CHECK (length(trim(NumeroSerie)) > 0)
+);
+
+-- Tabela de Propriedade (Relacionamento M:N simplificado para historico)
+CREATE TABLE PropriedadeEquipamento (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    Equipamento_ID INTEGER NOT NULL,
+    Cliente_NIF TEXT NOT NULL,
+    DataInicio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    DataFim TIMESTAMP,
+    -- ON DELETE CASCADE garante que ao apagar o equipamento, o registo de propriedade desaparece
+    FOREIGN KEY (Equipamento_ID) REFERENCES Equipamento(ID) ON DELETE CASCADE,
+    FOREIGN KEY (Cliente_NIF) REFERENCES Cliente(NIF) ON DELETE CASCADE,
+    CHECK (DataFim IS NULL OR DataFim > DataInicio)
+);
+
+-- Tabela de Leituras de Temperatura
+CREATE TABLE Temperatura (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    Equipamento_ID INTEGER NOT NULL,
+    DataHora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Temp0 REAL,
+    Temp1 REAL,
+    Temp2 REAL,
+    FOREIGN KEY (Equipamento_ID) REFERENCES Equipamento(ID) ON DELETE CASCADE,
+    CHECK (Temp0 IS NOT NULL OR Temp1 IS NOT NULL OR Temp2 IS NOT NULL)
+);
+
+/* 4. Estruturas para Monitorização Ativa */
+
+-- Tabela de configuracao de limites (para validacao no servidor)
+CREATE TABLE limites_sensores (
+    Sensor_tipo TEXT PRIMARY KEY, -- ex: 'temp0', 'temp1', 'temp2'
+    Min_val REAL NOT NULL,
+    Max_val REAL NOT NULL,
+    -- Garante limite maximo sempre superior ao minimo
+    CHECK (Max_val > Min_val) 
+);
+
+-- Tabela de alertas (registo permanente de anomalias)
+CREATE TABLE alertas_sensores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Equipamento_ID INTEGER NOT NULL,
+    Sensor_tipo TEXT NOT NULL,
+    Leitura REAL NOT NULL,
+    DataHora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Mensagem TEXT,
+    -- Chave estrangeira composta para garantir que o alerta refere um tipo de sensor configurado
+    FOREIGN KEY (Equipamento_ID) REFERENCES Equipamento(ID) ON DELETE CASCADE,
+    FOREIGN KEY (Sensor_tipo) REFERENCES limites_sensores(Sensor_tipo) [Conversation]
+);
+
+/* 5. Vistas (Views) */
+
+-- Vista consolidada para monitorização de clientes e os seus equipamentos ativos
+CREATE VIEW ClienteEquipamentoView AS
+SELECT 
+    c.NIF,
+    c.Nome AS NomeCliente,
+    e.ID AS EquipamentoID,
+    e.NumeroSerie,
+    pe.DataInicio AS DataInicioPropriedade,
+    pe.DataFim AS DataFimPropriedade
+FROM Cliente c
+INNER JOIN PropriedadeEquipamento pe ON c.NIF = pe.Cliente_NIF
+INNER JOIN Equipamento e ON pe.Equipamento_ID = e.ID
+WHERE pe.DataFim IS NULL OR pe.DataFim > CURRENT_TIMESTAMP;
+
+/* 6. Dados Iniciais de Configuração (Exemplo) */
+
+INSERT INTO limites_sensores (Sensor_tipo, Min_val, Max_val) VALUES 
+('temp0', -28.0, -18.0),
+('temp1', -20.0, -10.0),
+('temp2', 0.0, 50.0);
