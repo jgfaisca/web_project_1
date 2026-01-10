@@ -1,11 +1,11 @@
 /*
-IMPLEMENTAÇÃO
-(concretização do modelo físico)
+IMPLEMENTACAO
+(concretizacao do modelo físico)
 
-Esta concretização mapeia o modelo físico para um sistema de software específico (SQLite) que será 
-utilizado na implementação da base de dados. Define a estrutura das tabelas na base de dados, 
-incluindo as chaves primárias, chaves estrangeiras e tipos de dados para cada coluna. 
-As relações entre as tabelas são estabelecidas através das chaves estrangeiras, garantindo a 
+Esta concretizacao mapeia o modelo físico para um sistema de software específico (SQLite) que sera 
+utilizado na implementacao da base de dados. Define a estrutura das tabelas na base de dados, 
+incluindo as chaves primarias, chaves estrangeiras e tipos de dados para cada coluna. 
+As relacoes entre as tabelas sao estabelecidas atraves das chaves estrangeiras, garantindo a 
 integridade referencial dos dados.
 */
 
