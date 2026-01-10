@@ -96,7 +96,7 @@ CREATE TABLE alertas_sensores (
     Mensagem TEXT,
     -- Chave estrangeira composta para garantir que o alerta refere um tipo de sensor configurado
     FOREIGN KEY (Equipamento_ID) REFERENCES Equipamento(ID) ON DELETE CASCADE,
-    FOREIGN KEY (Sensor_tipo) REFERENCES limites_sensores(Sensor_tipo) [Conversation]
+    FOREIGN KEY (Sensor_tipo) REFERENCES limites_sensores(Sensor_tipo)
 );
 
 /* 5. Vistas (Views) */
