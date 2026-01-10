@@ -43,14 +43,14 @@ CREATE TABLE Cliente (
     CHECK (length(trim(NIF)) > 0 AND length(trim(Nome)) > 0)
 );
 
--- Tabela de Equipamentos
+-- Tabela de equipamentos
 CREATE TABLE Equipamento (
     ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     NumeroSerie TEXT NOT NULL UNIQUE,
     CHECK (length(trim(NumeroSerie)) > 0)
 );
 
--- Tabela de Propriedade (Relacionamento M:N simplificado para historico)
+-- Tabela de propriedade (relacionamento M:N simplificado para historico)
 CREATE TABLE PropriedadeEquipamento (
     ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     Equipamento_ID INTEGER NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE PropriedadeEquipamento (
     CHECK (DataFim IS NULL OR DataFim > DataInicio)
 );
 
--- Tabela de Leituras de Temperatura
+-- Tabela de leituras de temperatura
 CREATE TABLE Temperatura (
     ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     Equipamento_ID INTEGER NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE Temperatura (
     CHECK (Temp0 IS NOT NULL OR Temp1 IS NOT NULL OR Temp2 IS NOT NULL)
 );
 
-/* 4. Estruturas para Monitorização Ativa */
+/* 4. Estruturas para monitorizacao ativa */
 
 -- Tabela de configuracao de limites (para validacao no servidor)
 CREATE TABLE limites_sensores (
@@ -101,7 +101,7 @@ CREATE TABLE alertas_sensores (
 
 /* 5. Vistas (Views) */
 
--- Vista consolidada para monitorização de clientes e os seus equipamentos ativos
+-- Vista consolidada para monitorar clientes e os seus equipamentos ativos
 CREATE VIEW ClienteEquipamentoView AS
 SELECT 
     c.NIF,
@@ -115,9 +115,10 @@ INNER JOIN PropriedadeEquipamento pe ON c.NIF = pe.Cliente_NIF
 INNER JOIN Equipamento e ON pe.Equipamento_ID = e.ID
 WHERE pe.DataFim IS NULL OR pe.DataFim > CURRENT_TIMESTAMP;
 
-/* 6. Dados Iniciais de Configuração (Exemplo) */
+/* 6. Dados iniciais de configuracao (Exemplo) */
 
 INSERT INTO limites_sensores (Sensor_tipo, Min_val, Max_val) VALUES 
 ('temp0', -28.0, -18.0),
 ('temp1', -20.0, -10.0),
 ('temp2', 0.0, 50.0);
+
